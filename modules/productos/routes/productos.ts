@@ -3,7 +3,7 @@ import * as productosSchema from "../schemas/productos";
 
 const router = express.Router();
 
-router.get("/pepe", async (request, response) => {
+router.get("/productos", async (request, response) => {
     try {
         console.log("Entra a productos nuevos!!!");
         let productos = await productosSchema.productos.find();

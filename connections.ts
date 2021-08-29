@@ -25,7 +25,8 @@ export class Connections {
 
 		// Conecta y configura conexiones
 		// 1. PRINCIPAL
-		mongoose.connect(configPrivate.hosts.mongoDB_main.host, configPrivate.hosts.mongoDB_main.options);
+		mongoose.connect(configPrivate.hosts.mongoDB_main.host);
+		// configPrivate.hosts.mongoDB_main.options TERMINAR!
 		this.main = mongoose.connection;
 	}
 }
