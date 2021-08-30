@@ -2,7 +2,7 @@ import * as bodyParser from "body-parser";
 import * as Express from "express";
 import * as config from "./config";
 import { Connections } from "./connections";
-const requireDir = require("require-dir");
+const requireDir = require("require-dir"); //Para poder levantar carpetas de la API-
 
 export function initAPI(app: Express) {
     Connections.initialize();
