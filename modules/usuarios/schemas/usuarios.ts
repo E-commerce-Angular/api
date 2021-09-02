@@ -7,3 +7,5 @@ export const UsuarioSchema = new mongoose.Schema({
 });
 
 export let usuarios = mongoose.model("Usuario", UsuarioSchema, "usuarios");
+
+
