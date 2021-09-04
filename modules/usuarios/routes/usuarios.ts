@@ -42,5 +42,19 @@ router.put("/usuario/:id", async (req, res)=>{
 })
 
 
+router.delete("/usuario/:id", async (req,res)=>{
+  try{
+      const userDelete = req.body; 
+      const idUser = req.params.id; 
+      const userDeleted = await usuariosSchema.usuarios.findByIdAndDelete(idUser, userDelete); 
+      console.log("User Borrado", userDeleted)
+      return res.status(200).send({ status: "success", data: userDeleted });
+  }catch(err){
+      console.log("Error: ", err);
+      return res.status(404).send({ status: "error", data: err });
+  }
+})
+
+
 
 export = router;
