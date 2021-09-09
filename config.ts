@@ -9,5 +9,9 @@ export const modules = {
         path: "./modules/usuarios/routes",
         route: "/modules/usuarios",
     },
-   
+    registro: {
+        active: true,
+        path: "./modules/autenticaciones/routes",
+        route: "/modules/autenticaciones",
+    }
 };
