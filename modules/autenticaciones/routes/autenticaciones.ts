@@ -5,7 +5,7 @@ import { findUser} from '../autenticaciones.controller';
 import { Auth } from '../autenticaciones.class';
 
 const sha1Hash = require('sha1');
-const shiroTrie = require('shiro-trie');
+
 const router = express.Router();
 
 router.post("/usuario", async (req, res) => {
@@ -28,7 +28,7 @@ router.post('/login', async (req, res, next) => {
     res.json({ //Genera el token y devuelve un usuario hacia la app
         token: Auth.generateUserToken2(user.usuario)
     });
-};
+  };
 
   if (!req.body.usuario || !req.body.password) { //Verifica que el usuario haya ingresado algo, sino lo rebota
       return next(403);
