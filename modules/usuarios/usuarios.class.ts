@@ -6,7 +6,7 @@ import * as passportJWT from 'passport-jwt';
 import * as configPrivate from './../../config.private';
 
 
-export class Auth {
+export class User {
 
     static expiresIn = 60 * 60 * 24 * 10; /* 10 días */
     static expiresInTemporaly = 60 * 5;
