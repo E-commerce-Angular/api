@@ -4,7 +4,7 @@ import * as autenticacionesSchema from "../schemas/autenticaciones";
 import { findUser } from "../autenticaciones.controller";
 import { Auth } from "../autenticaciones.class";
 
-const sha1Hash = require("sha1");
+const bcrypt = require("bcrypt");
 const emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
 
 const router = express.Router();
@@ -72,10 +72,9 @@ router.post("/login", async (req, res, next) => {
             //Si el objeto es diferente a null
             const { user }: any = userResponse;
             console.log("Usuario encontrado: ", user);
-            const passwordSha1 = req.body.password;
-            // const passwordSha1 = sha1Hash(req.body.password); //Encripta el password que viene de la app
-            if (passwordSha1 === user.password) {
-                //Si la clave que viene de la bdd y de la aplicacion son iguales entra
+            const passwordSha1 = await bcrypt.compare(req.body.password, user.password);
+
+            if (passwordSha1) {
                 return login(user);
             }
         }
