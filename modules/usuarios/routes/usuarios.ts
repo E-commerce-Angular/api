@@ -6,6 +6,7 @@ import { User } from "../usuarios.class";
 
 const sha1Hash = require("sha1");
 const emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+const emailer = require("./../../emailer");
 
 const router = express.Router();
 
@@ -15,6 +16,8 @@ router.post("/usuario", async (req, res) => {
     const newUser = req.body;
     const usuarios = new usuariosSchema.usuarios(newUser);
     const usuarioNuevo = await usuarios.save();
+    console.log("Email de registro enviado");
+    emailer.sendMail(usuarioNuevo);
     console.log("User agregado", usuarioNuevo);
     return res.status(200).send({ status: "success", data: usuarioNuevo });
   } catch (err) {
