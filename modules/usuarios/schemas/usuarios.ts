@@ -5,6 +5,7 @@ export const UsuarioSchema = new mongoose.Schema({
     usuario: { type: String, required: true },
     nombreUsuario: { type: String, required: true, lowercase: true },
     apellidoUsuario: { type: String, required: true, lowercase: true },
+    pics: {type: String},
     dni: Number,
     password: {type: String, required: true}
 });

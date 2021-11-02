@@ -9,6 +9,16 @@ const emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
 
 const router = express.Router();
 
+router.get("/usuarios", async (req, res) => {
+  try {
+    let usuarios = await usuariosSchema.usuarios.find();
+    console.log("Usuarios registrados!!!", usuarios);
+    return res.status(200).send({ status: "success", data: usuarios });
+  } catch (err) {
+    console.log("Error: ", err);
+    return res.status(404).send({ status: "error", data: err });
+  }
+});
 
 router.post("/usuario", async (req, res) => {
   try {
@@ -22,19 +32,6 @@ router.post("/usuario", async (req, res) => {
     return res.status(404).send({ status: "error", data: err });
   }
 });
-
-
-router.get("/usuarios", async (req, res) => {
-  try {
-    let usuarios = await usuariosSchema.usuarios.find();
-    console.log("Usuarios registrados!!!", usuarios);
-    return res.status(200).send({ status: "success", data: usuarios });
-  } catch (err) {
-    console.log("Error: ", err);
-    return res.status(404).send({ status: "error", data: err });
-  }
-});
-
 
 router.post("/registro", async (req, res) => {
   console.log("Usuario registro: ", req.body);
