@@ -2,7 +2,7 @@ import * as bodyParser from "body-parser";
 import * as Express from "express";
 import * as config from "./config";
 import { Connections } from "./connections";
-import { Auth } from "./modules/autenticaciones/autenticaciones.class";
+
 
 const requireDir = require("require-dir"); //Para poder levantar carpetas de la API-
 
@@ -10,7 +10,7 @@ export function initAPI(app: Express) {
     Connections.initialize();
     
     // Inicializa la autenticación con Passport/JWT
-    Auth.initialize(app);
+   // Auth.initialize(app);
     
     app.use(bodyParser.json({ limit: "150mb" }));
     app.use(

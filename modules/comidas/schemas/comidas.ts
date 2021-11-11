@@ -1,15 +1,15 @@
 import * as mongoose from "mongoose";
 const bcrypt = require("bcrypt");
 
-export const AutenticacionSchema = new mongoose.Schema({
-    usuario: { type: String, required: true },
-    nombreUsuario: { type: String, required: true, lowercase: true },
-    apellidoUsuario: { type: String, required: true, lowercase: true },
-    dni: Number,
-    password: { type: String, required: true },
+export const comidaschema = new mongoose.Schema({
+    comida: { type: String, required: true },
+    nombrecompletocomida: { type: String, required: true, lowercase: true },
+    tipocomida: { type: String, required: true, lowercase: true },
+    calorias: Number,
+    password: {type: String, required: true}
 });
 
-AutenticacionSchema.pre("save", function (next) {
+comidaschema.pre("save", function (next) {
     let user: any = this;
     const SALT_FACTOR = 12;
 
@@ -30,4 +30,7 @@ AutenticacionSchema.pre("save", function (next) {
         .catch((err) => next(err));
 });
 
-export let usuarios = mongoose.model("Autenticacion", AutenticacionSchema, "usuarios");
+
+export let comidas = mongoose.model("comida", comidaschema, "comidas");
+
+

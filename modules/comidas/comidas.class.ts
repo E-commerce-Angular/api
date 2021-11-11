@@ -3,10 +3,10 @@ import * as jwt from 'jsonwebtoken';
 import * as mongoose from 'mongoose';
 import * as passport from 'passport';
 import * as passportJWT from 'passport-jwt';
-import * as configPrivate from './../../config.private';
+import * as configPrivate from '../../config.private';
 
 
-export class Auth {
+export class User {
 
     static expiresIn = 60 * 60 * 24 * 10; /* 10 días */
     static expiresInTemporaly = 60 * 5;
@@ -33,14 +33,14 @@ export class Auth {
 
     /**
      * Version dos del token. Con menos datos.
-     * Solo posee el username y el password.
+     * Solo posee la comidaname y el password.
      */
 
-    static generateUserToken2(username: string, account_id = null): any {
+    static generatecomidaToken2(comidaname: string, account_id = null): any {
         // Crea el token con los datos de sesión
         const token: any = {
             id: mongoose.Types.ObjectId(),
-            usuario: username,
+            comida: comidaname,
             account_id,
             type: 'user-token-2'
         };

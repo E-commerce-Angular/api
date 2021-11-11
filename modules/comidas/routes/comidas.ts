@@ -1,8 +1,8 @@
 import * as express from "express";
-import * as usuariosSchema from "../schemas/usuarios";
+import * as comidasSchema from "../schemas/comidas";
 
-import { findUser } from "../usuarios.controller";
-import { User } from "../usuarios.class";
+import { findComida } from "../comidas.controller";
+import { User } from "../comidas.class";
 
 const sha1Hash = require("sha1");
 const emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
@@ -10,13 +10,13 @@ const emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
 const router = express.Router();
 
 
-router.post("/usuario", async (req, res) => {
+router.post("/comida", async (req, res) => {
   try {
-    const newUser = req.body;
-    const usuarios = new usuariosSchema.usuarios(newUser);
-    const usuarioNuevo = await usuarios.save();
-    console.log("User agregado", usuarioNuevo);
-    return res.status(200).send({ status: "success", data: usuarioNuevo });
+    const newComida = req.body;
+    const comidas = new comidasSchema.comidas(newComida);
+    const comidaNuevo = await comidas.save();
+    console.log("User agregado", comidaNuevo);
+    return res.status(200).send({ status: "success", data: comidaNuevo });
   } catch (err) {
     console.log("Error: ", err);
     return res.status(404).send({ status: "error", data: err });
@@ -24,11 +24,11 @@ router.post("/usuario", async (req, res) => {
 });
 
 
-router.get("/usuarios", async (req, res) => {
+router.get("/comidas", async (req, res) => {
   try {
-    let usuarios = await usuariosSchema.usuarios.find();
-    console.log("Usuarios registrados!!!", usuarios);
-    return res.status(200).send({ status: "success", data: usuarios });
+    let comidas = await comidasSchema.comidas.find();
+    console.log("comidas registradas!!!", comidas);
+    return res.status(200).send({ status: "success", data: comidas });
   } catch (err) {
     console.log("Error: ", err);
     return res.status(404).send({ status: "error", data: err });
@@ -37,24 +37,24 @@ router.get("/usuarios", async (req, res) => {
 
 
 router.post("/registro", async (req, res) => {
-  console.log("Usuario registro: ", req.body);
+  console.log("comida registro: ", req.body);
 
   try {
-      const email = req.body.usuario;
+      const email = req.body.comida;
       const password = req.body.password;
 
       await checkEmail(email);
       await checkPassword(password);
       await testEmail(email);
 
-      if (await findUser(email)) {
-          return { status: "error", msg: "El usuario ya existe!" };
+      if (await findComida(email)) {
+          return { status: "error", msg: "La comida ya existe!" };
       }
 
-      const usuarioRegistrado = new usuariosSchema.usuarios(req.body);
-      await usuarioRegistrado.save();
+      const comidaRegistrado = new comidasSchema.comidas(req.body);
+      await comidaRegistrado.save();
 
-      return res.status(200).send({ status: "success", data: usuarioRegistrado });
+      return res.status(200).send({ status: "success", data: comidaRegistrado });
   } catch (err) {
       console.log("Error: ", err);
       return res.status(404).send({ status: "error", data: err });
@@ -68,25 +68,25 @@ router.post("/login", async (req, res, next) => {
   const login = async (user) => {
       console.log("Entra al login: ", user);
       res.json({
-          //Genera el token y devuelve un usuario hacia la app
-          token: User.generateUserToken2(user.usuario),
+          //Genera el token y devuelve un comida hacia la app
+          token: User.generatecomidaToken2(user.comida),
       });
   };
 
-  console.log("Usuario posta validando: ", req.body);
-  if (!req.body.usuario || !req.body.password) {
-      //Verifica que el usuario haya ingresado algo, sino lo rebota
+  console.log("comida posta validando: ", req.body);
+  if (!req.body.comida || !req.body.password) {
+      
       return next(403);
   }
 
   try {
-      console.log("Usuario posta: ", req.body.usuario);
-      const userResponse = await findUser(req.body.usuario); //El usuario que viene de la app lo busca en la bdd para ver si está registrado
+      console.log("comida posta: ", req.body.comida);
+      const userResponse = await findComida(req.body.comida); //la comida que viene de la app lo busca en la bdd para ver si está registrado
 
       if (userResponse) {
           //Si el objeto es diferente a null
           const { user }: any = userResponse;
-          console.log("Usuario encontrado: ", user);
+          console.log("comida encontrado: ", user);
           const passwordSha1 = req.body.password;
           // const passwordSha1 = sha1Hash(req.body.password); //Encripta el password que viene de la app
           if (passwordSha1 === user.password) {
@@ -101,12 +101,12 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.put("/usuario/:id", async (req, res) => {
+router.put("/comida/:id", async (req, res) => {
   try {
-    console.log("Id Usuario", req.params);
+    console.log("Id comida", req.params);
     const userUpdate = req.body;
     const idUser = req.params.id;
-    const userUpdated = await usuariosSchema.usuarios.findByIdAndUpdate(
+    const userUpdated = await comidasSchema.comidas.findByIdAndUpdate(
       idUser,
       userUpdate,
       { new: true }
@@ -119,11 +119,11 @@ router.put("/usuario/:id", async (req, res) => {
   }
 });
 
-router.delete("/usuario/:id", async (req, res) => {
+router.delete("/comida/:id", async (req, res) => {
   try {
     const userDelete = req.body;
     const idUser = req.params.id;
-    const userDeleted = await usuariosSchema.usuarios.findByIdAndDelete(
+    const userDeleted = await comidasSchema.comidas.findByIdAndDelete(
       idUser,
       userDelete
     );
