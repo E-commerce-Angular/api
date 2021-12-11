@@ -1,6 +1,7 @@
 import * as express from "express";
 import { initAPI } from "./iniciar";
 
+// Prueba de editor en Github - Presionar . en un repositorio
 const app = express();
 
 initAPI(app);
